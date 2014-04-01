@@ -34,8 +34,10 @@ public class Main extends JFrame implements KeyListener {
 	}
 	
 	private Main(){
-		setSize(size);
-		setResizable(false);
+		setPreferredSize(size);
+		setMinimumSize(size);
+		
+		setResizable(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setTitle(title);
@@ -51,6 +53,7 @@ public class Main extends JFrame implements KeyListener {
 
 		setContentPane(painel);
 		setVisible(true);
+		pack();
 	}
 	
 	private void setVisorConfig(){
@@ -123,10 +126,7 @@ public class Main extends JFrame implements KeyListener {
 	public void keyPressed(KeyEvent e) {}
 
 	@Override
-	public void keyReleased(KeyEvent e) {}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyReleased(KeyEvent e) {
 		char key = e.getKeyChar();
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 			key = '=';
@@ -138,5 +138,7 @@ public class Main extends JFrame implements KeyListener {
 			}
 		}
 	}
-	
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
 }

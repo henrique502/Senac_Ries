@@ -11,6 +11,11 @@ public class Button extends JButton {
 		super("" + value);
 		setFocusable(false);
 		this.value = value;
+		
+		setOpaque(false);
+		setFocusPainted(false);
+		setBorderPainted(true);
+		setContentAreaFilled(false);
 	}
 	
 	public char getValue(){

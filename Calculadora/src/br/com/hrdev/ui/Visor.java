@@ -15,6 +15,7 @@ public class Visor extends TextField {
 		setEditable(false);
 		setFocusable(false);
 		setBackground(Color.white);
+		
 	}
 	
 	@Override
