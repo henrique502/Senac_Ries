@@ -1,32 +1,36 @@
 package br.com.hrdev;
 
-import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import br.com.hrdev.containers.AddPessoaContainer;
-import br.com.hrdev.containers.EditPessoaContainer;
-import br.com.hrdev.containers.ListPessoaContainer;
-import br.com.hrdev.models.Pessoa;
+import br.com.hrdev.controllers.ListaController;
+import br.com.hrdev.events.CloseWindow;
+import br.com.hrdev.libraries.Storage;
 
 @SuppressWarnings("serial")
 public class Main extends JFrame {
 
 	private Dimension size = new Dimension(500, 400);
-	private String title = "Curd Pessoa";
-	private List<Pessoa> lista = new ArrayList<Pessoa>();
-	
+	private String title = "Navbars";
+
 	private JPanel painel;
+	private CardLayout layout;
 	
-	private ListPessoaContainer listPessoaContainer;
-	private AddPessoaContainer addPessoaContainer;
-	private EditPessoaContainer editPessoaContainer;
+	private Storage storage;
+	private File currentDir;
+	
+	
+	public final static String Lista = "lista";
+	public final static String Cadastro = "";
+	public final static String Remover = "";
 	
 	public static void main(String[] args) {
 		new Main();
@@ -36,19 +40,80 @@ public class Main extends JFrame {
 	private Main(){
 		setSize(size);
 		setResizable(false);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setTitle(title);
 		
+		storage = new Storage();
+		layout = new CardLayout();
 		painel = new JPanel();
 		painel.setBorder(new EmptyBorder(10,10,10,10));
-		painel.setLayout(new BorderLayout(10,10));
+		painel.setLayout(layout);
 		
-		setContainer();
-		setContentPane(painel);
+		initData();
+		setupControllers();
+		
+		JPanel painel1 = new JPanel();
+		painel1.setBackground(Color.BLUE);
+		painel.add(painel1,"blue");
+		
+		getContentPane().add(painel);
+
+		swapController(Lista);
+		
+		
+		addWindowListener(new CloseWindow(this));
 		setVisible(true);
 	}
+	
+	private void setupControllers() {
+		painel.add(new ListaController(this),Lista);
+		//painel.add(new MainController(this),"main");
+		//painel.add(new MainController(this),"main");
+	}
+	
+	private void initData(){
+		currentDir = new File(System.getProperty("user.dir"));
+		JFileChooser fileChoose = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(".*storage", "storage");
+		
+		fileChoose.setCurrentDirectory(getDir());
+		fileChoose.setFileFilter(filter);
+		
+		try {
+			int respose = fileChoose.showDialog(this, "Abrir");
+			
+			if (respose == JFileChooser.APPROVE_OPTION) {
+				File file = fileChoose.getSelectedFile();
+				if(file.isFile()){
+					getStorage().getData(file);
+				} else {
+					System.exit(0);
+				}
+			} else {
+				System.exit(0);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+			System.exit(0);
+		}
+	}
 
+	public void swapController(String controller){
+		layout.show(painel,controller);
+	}
+	
+	public Storage getStorage(){
+		return this.storage;
+	}
+	
+	public File getDir(){
+		return this.currentDir;
+	}
+	
+
+	
+/*
 	private void setContainer() {
 		listPessoaContainer = new ListPessoaContainer(this);
 
@@ -122,5 +187,5 @@ public class Main extends JFrame {
 	public Object[] getListaArray(){
 		return lista.toArray();
 	}
-
+*/
 }
