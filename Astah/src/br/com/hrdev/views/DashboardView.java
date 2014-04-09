@@ -3,17 +3,20 @@ package br.com.hrdev.views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Event;
-import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import br.com.hrdev.Window;
@@ -83,39 +86,72 @@ public class DashboardView extends JPanel {
 	}
 	
 	private void setPanels(){
-		setLayout(new BorderLayout(10,10));
+		setLayout(new BorderLayout(10,0));
 		
 		/* Panels */
-		JPanel west = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JPanel center = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JPanel treePanel = new JPanel(new BorderLayout(10,10));
-		JPanel drawPanel = new JPanel(new BorderLayout(10,10));
+		JPanel west = new JPanel(new BorderLayout(0,5));
+		JPanel center = new JPanel(new BorderLayout(0,0));
 		
-		west.setBackground(Color.white);
-		west.add(treePanel);
-		
-		center.setBackground(Color.gray);
-		center.add(drawPanel);
+		center.setBackground(Color.white);
+		center.setBorder(BorderFactory.createLineBorder(Color.gray));
 		
 		/* JTree */
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Meu Caso de Uso");
-		tree = new JTree(root);
-		treePanel.add(tree,BorderLayout.CENTER);
-		treePanel.setBackground(west.getBackground());
+		tree = new JTree(getDataTree());
+		tree.setBorder(new EmptyBorder(4, 4, 4, 4));
+		
+		/* JTree scrollPane */
+		JScrollPane scrollPane = new JScrollPane(tree);
+		scrollPane.setBorder(BorderFactory.createLineBorder(Color.gray));
+		scrollPane.setBackground(Color.white);
+		
+		west.add(scrollPane,BorderLayout.CENTER);
 		
 		/* JTree Options */
 		JPanel jTreeOptions = new JPanel(new BorderLayout(5,5));
-		jTreeOptions.setBackground(west.getBackground());
+
 		jTreeOptions.add(new JButton(Icons.Add),BorderLayout.WEST);
 		jTreeOptions.add(new JButton(Icons.Edit),BorderLayout.CENTER);
 		jTreeOptions.add(new JButton(Icons.Delete),BorderLayout.EAST);
-		treePanel.add(jTreeOptions,BorderLayout.NORTH);
+		west.add(jTreeOptions,BorderLayout.NORTH);
+		
+		/* Draw Area */
+		JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
+		toolbar.setFloatable(false);
+		toolbar.add(new JButton(Icons.Edit));
+		toolbar.add(new JButton(Icons.Accept));
+		toolbar.add(new JButton(Icons.Add));
+		toolbar.add(new JButton(Icons.Delete));
+		toolbar.addSeparator();
+		toolbar.add(new JButton(Icons.Edit));
+		toolbar.add(new JButton(Icons.Accept));
+		toolbar.add(new JButton(Icons.Add));
+		toolbar.add(new JButton(Icons.Delete));
+		
+		center.add(toolbar,BorderLayout.NORTH);
 		
 		add(west,BorderLayout.WEST);
 		add(center,BorderLayout.CENTER);
 		
 	}
 	
+	private DefaultMutableTreeNode getDataTree() {
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Meu Caso de Uso");
+		
+		DefaultMutableTreeNode node, child;
+		
+		for (int i = 0; i < 15; i++) {
+			node = new DefaultMutableTreeNode("Teste " + i);
+			for (int j = 0; j < 15; j++) {
+				child = new DefaultMutableTreeNode("Teste " + i + "/" + j);
+				node.add(child);
+			}
+			
+			root.add(node);
+		}
+
+		return root;
+	}
+
 	private void setUpdatePanel(){
 		addComponentListener (new ComponentAdapter(){
 	        public void componentShown(ComponentEvent e){
