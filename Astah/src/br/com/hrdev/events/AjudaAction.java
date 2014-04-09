@@ -18,7 +18,7 @@ public class AjudaAction implements ActionListener, MenuListener {
 	}
 	
 	private void openText(){
-		JOptionPane.showMessageDialog(window, "By Henrique Rieger\nHR Web Development", "Ajuda", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(window, "By Henrique Rieger\nwww.hrdev.com.br", "Ajuda", JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	@Override

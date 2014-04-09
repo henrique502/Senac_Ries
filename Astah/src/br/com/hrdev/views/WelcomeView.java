@@ -36,8 +36,8 @@ public class WelcomeView extends JPanel {
 		JLabel mensagem = new JLabel();
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
-		mensagem.setFont(new Font(Fonts.ShadowsIntoLight, Font.PLAIN, 50));
-		mensagem.setText("Bem-Vindo!");
+		mensagem.setFont(new Font(Fonts.ShadowsIntoLight.getFamily(), Font.PLAIN, 50));
+		mensagem.setText("<html><center>Bem-Vindo!<br>ao<br>" + Window.Title + "</center></html>");
 		mensagem.setHorizontalAlignment(SwingConstants.CENTER);
 
 		ok = new JButton();

@@ -7,20 +7,20 @@ import java.net.URL;
 
 public class Fonts {
 	
-	public static final String ShadowsIntoLight = new Fonts().getFont("ShadowsIntoLight");
+	public static final Font ShadowsIntoLight = new Fonts().getFont("ShadowsIntoLight");
 	
 	
 	private static final String Ext = ".ttf";
 	
-	private String getFont(String fontName) {
+	private Font getFont(String fontName) {
 		try {
 			URL imgURL = getClass().getResource("/assets/fonts/" + fontName + Ext);
 			if (imgURL != null) {
-
+				Font font = Font.createFont(Font.TRUETYPE_FONT, new File(imgURL.toURI()));
 		    	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		    	ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File(imgURL.toURI())));
+		    	ge.registerFont(font);
 		    	
-		    	return fontName;
+		    	return font;
 		    } else {
 		        System.err.println("Fonte nao existe: " + "/assets/icons/" + fontName + Ext);
 		    }

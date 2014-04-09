@@ -2,13 +2,13 @@ package br.com.hrdev.views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -19,6 +19,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import br.com.hrdev.Window;
 import br.com.hrdev.components.MenuBar;
 import br.com.hrdev.events.CloseEvent;
+import br.com.hrdev.utils.Icons;
 
 @SuppressWarnings("serial")
 public class DashboardView extends JPanel {
@@ -26,7 +27,6 @@ public class DashboardView extends JPanel {
 	private Window window;
 	
 	private JTree tree;
-	private JPanel drawPanel;
 	
 	public DashboardView(Window window){
 		this.window = window;
@@ -85,23 +85,34 @@ public class DashboardView extends JPanel {
 	private void setPanels(){
 		setLayout(new BorderLayout(10,10));
 		
+		/* Panels */
 		JPanel west = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Projeto");
-		tree = new JTree(root);
+		JPanel center = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel treePanel = new JPanel(new BorderLayout(10,10));
+		JPanel drawPanel = new JPanel(new BorderLayout(10,10));
 		
 		west.setBackground(Color.white);
-		west.add(tree);
-		west.setPreferredSize(new Dimension(170, 700));
+		west.add(treePanel);
 		
-		drawPanel = new JPanel(new BorderLayout(10,10));
-		drawPanel.setBackground(Color.gray);
+		center.setBackground(Color.gray);
+		center.add(drawPanel);
 		
+		/* JTree */
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Meu Caso de Uso");
+		tree = new JTree(root);
+		treePanel.add(tree,BorderLayout.CENTER);
+		treePanel.setBackground(west.getBackground());
 		
-		
+		/* JTree Options */
+		JPanel jTreeOptions = new JPanel(new BorderLayout(5,5));
+		jTreeOptions.setBackground(west.getBackground());
+		jTreeOptions.add(new JButton(Icons.Add),BorderLayout.WEST);
+		jTreeOptions.add(new JButton(Icons.Edit),BorderLayout.CENTER);
+		jTreeOptions.add(new JButton(Icons.Delete),BorderLayout.EAST);
+		treePanel.add(jTreeOptions,BorderLayout.NORTH);
 		
 		add(west,BorderLayout.WEST);
-		add(drawPanel,BorderLayout.CENTER);
+		add(center,BorderLayout.CENTER);
 		
 	}
 	

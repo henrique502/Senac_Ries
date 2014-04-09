@@ -16,8 +16,8 @@ import br.com.hrdev.views.WelcomeView;
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 	
-	private static final String Title = "Astha";
-	private static final Dimension Size = new Dimension(1024, 768);
+	public static final String Title = "Use Case";
+	private static final Dimension Size = new Dimension(1024, 700);
 
 	private JPanel painel;
 	private CardLayout layout;
