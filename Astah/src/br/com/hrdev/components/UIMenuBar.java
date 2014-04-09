@@ -9,11 +9,11 @@ import br.com.hrdev.events.AjudaAction;
 import br.com.hrdev.utils.Icons;
 
 @SuppressWarnings("serial")
-public class MenuBar extends JMenuBar {
+public class UIMenuBar extends JMenuBar {
 	
 	private Window window;
 	
-	public MenuBar(Window window){
+	public UIMenuBar(Window window){
 		super();
 	}
 	

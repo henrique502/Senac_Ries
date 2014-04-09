@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import br.com.hrdev.Window;
-import br.com.hrdev.components.MenuBar;
+import br.com.hrdev.components.UIMenuBar;
 import br.com.hrdev.events.CloseEvent;
 import br.com.hrdev.utils.Fonts;
 
@@ -61,7 +61,7 @@ public class WelcomeView extends JPanel {
 	}
 	
 	private void setMenu(){
-		MenuBar menubar = (MenuBar) window.getJMenuBar();
+		UIMenuBar menubar = (UIMenuBar) window.getJMenuBar();
 		menubar.removeAll();
 
 		menubar.setHelp();
@@ -70,13 +70,15 @@ public class WelcomeView extends JPanel {
 	
 	private void setUpdatePanel(){
 		addComponentListener (new ComponentAdapter(){
-	        public void componentShown(ComponentEvent e){
+	        @Override
+			public void componentShown(ComponentEvent e){
 	        	setMenu();
 	        	ok.requestFocus();
 
 	        }
 
-	        public void componentHidden(ComponentEvent e){
+	        @Override
+			public void componentHidden(ComponentEvent e){
 	        	
 	        }
 	    });

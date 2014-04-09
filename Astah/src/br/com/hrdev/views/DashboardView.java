@@ -8,6 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -16,11 +17,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import br.com.hrdev.Window;
-import br.com.hrdev.components.MenuBar;
+import br.com.hrdev.components.UIMenuBar;
+import br.com.hrdev.components.UITreeCellRenderer;
 import br.com.hrdev.events.CloseEvent;
 import br.com.hrdev.utils.Icons;
 
@@ -42,7 +45,7 @@ public class DashboardView extends JPanel {
 	}
 
 	private void setMenu() {
-		MenuBar menubar = (MenuBar) window.getJMenuBar();
+		UIMenuBar menubar = (UIMenuBar) window.getJMenuBar();
 		menubar.removeAll();
 		
 		JMenu menuArquivo = new JMenu("Arquivo");
@@ -98,6 +101,7 @@ public class DashboardView extends JPanel {
 		/* JTree */
 		tree = new JTree(getDataTree());
 		tree.setBorder(new EmptyBorder(4, 4, 4, 4));
+		tree.setCellRenderer(new UITreeCellRenderer());
 		
 		/* JTree scrollPane */
 		JScrollPane scrollPane = new JScrollPane(tree);
@@ -115,18 +119,9 @@ public class DashboardView extends JPanel {
 		west.add(jTreeOptions,BorderLayout.NORTH);
 		
 		/* Draw Area */
-		JToolBar toolbar = new JToolBar(JToolBar.HORIZONTAL);
+		JToolBar toolbar = new JToolBar(SwingConstants.HORIZONTAL);
 		toolbar.setFloatable(false);
-		toolbar.add(new JButton(Icons.Edit));
-		toolbar.add(new JButton(Icons.Accept));
-		toolbar.add(new JButton(Icons.Add));
-		toolbar.add(new JButton(Icons.Delete));
-		toolbar.addSeparator();
-		toolbar.add(new JButton(Icons.Edit));
-		toolbar.add(new JButton(Icons.Accept));
-		toolbar.add(new JButton(Icons.Add));
-		toolbar.add(new JButton(Icons.Delete));
-		
+		setToolbar(toolbar);
 		center.add(toolbar,BorderLayout.NORTH);
 		
 		add(west,BorderLayout.WEST);
@@ -134,6 +129,30 @@ public class DashboardView extends JPanel {
 		
 	}
 	
+	private void setToolbar(JToolBar toolbar) {
+		ImageIcon[] icons = {
+				Icons.Edit, Icons.Accept, Icons.Add, Icons.Delete, null,
+				Icons.Page, Icons.Page_add, Icons.Page_edit, Icons.Page_delete, null,
+				Icons.Folder, Icons.Folder_add, Icons.Folder_edit, Icons.Folder_delete
+		};
+		String[] tooltips = {
+				"Editar", "Aceitar", "Adicinar", "Deletar", null,
+				"P\u00e1gina", "Adicionar P\u00e1gina", "Editar P\u00e1gina", "Remover P\u00e1gina",null,
+				"Pasta", "Adicionar Pasta", "Editar Pasta", "Remover Pasta"
+		};
+		
+		for (int i = 0; i < icons.length; i++) {
+			if(icons[i] == null){
+				toolbar.addSeparator();
+			} else {
+				JButton button = new JButton(icons[i]);
+				button.setFocusable(false);
+				button.setToolTipText(tooltips[i]);
+				toolbar.add(button);
+			}
+		}
+	}
+
 	private DefaultMutableTreeNode getDataTree() {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Meu Caso de Uso");
 		
@@ -154,11 +173,13 @@ public class DashboardView extends JPanel {
 
 	private void setUpdatePanel(){
 		addComponentListener (new ComponentAdapter(){
-	        public void componentShown(ComponentEvent e){
+	        @Override
+			public void componentShown(ComponentEvent e){
 	        	setMenu();
 	        }
 
-	        public void componentHidden(ComponentEvent e){}
+	        @Override
+			public void componentHidden(ComponentEvent e){}
 	    });
 	}
 }

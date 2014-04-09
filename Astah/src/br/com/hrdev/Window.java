@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import br.com.hrdev.components.MenuBar;
+import br.com.hrdev.components.UIMenuBar;
 import br.com.hrdev.utils.Icons;
 import br.com.hrdev.views.DashboardView;
 import br.com.hrdev.views.WelcomeView;
@@ -25,7 +25,9 @@ public class Window extends JFrame {
 	public static final String Welcome = "welcome";
 	public static final String Dashboard = "dashboard";
 	
-	private Window(){
+	private Window(){}
+	
+	private void run(){
 		setAtributos();
 		setViews();
 		pack();
@@ -39,7 +41,7 @@ public class Window extends JFrame {
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setFocusable(true);
-		setJMenuBar(new MenuBar(this));
+		setJMenuBar(new UIMenuBar(this));
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setIconImage(Icons.Favicon.getImage());
@@ -63,9 +65,11 @@ public class Window extends JFrame {
 
 	public static void main(String[] args) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
-	          public void run() {
-	        	  new Window();
-	          }
+			@Override
+			public void run() {
+				Window app = new Window();
+				app.run();
+			}
 	    });
 	}
 }
