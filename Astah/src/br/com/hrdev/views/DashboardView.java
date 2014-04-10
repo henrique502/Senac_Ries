@@ -24,6 +24,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import br.com.hrdev.Window;
 import br.com.hrdev.components.UIMenuBar;
 import br.com.hrdev.components.UIPaintPanel;
+import br.com.hrdev.components.UIToolBarButton;
 import br.com.hrdev.components.UITreeCellRenderer;
 import br.com.hrdev.events.CloseEvent;
 import br.com.hrdev.utils.Icons;
@@ -151,9 +152,7 @@ public class DashboardView extends JPanel {
 			if(icons[i] == null){
 				toolbar.addSeparator();
 			} else {
-				JButton button = new JButton(icons[i]);
-				button.setFocusable(false);
-				button.setToolTipText(tooltips[i]);
+				UIToolBarButton button = new UIToolBarButton(icons[i],tooltips[i]);
 				toolbar.add(button);
 			}
 		}
