@@ -23,6 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import br.com.hrdev.Window;
 import br.com.hrdev.components.UIMenuBar;
+import br.com.hrdev.components.UIPaintPanel;
 import br.com.hrdev.components.UITreeCellRenderer;
 import br.com.hrdev.events.CloseEvent;
 import br.com.hrdev.utils.Icons;
@@ -33,6 +34,8 @@ public class DashboardView extends JPanel {
 	private Window window;
 	
 	private JTree tree;
+
+	private UIPaintPanel paintPanel;
 	
 	public DashboardView(Window window){
 		this.window = window;
@@ -123,6 +126,9 @@ public class DashboardView extends JPanel {
 		toolbar.setFloatable(false);
 		setToolbar(toolbar);
 		center.add(toolbar,BorderLayout.NORTH);
+		
+		paintPanel = new UIPaintPanel();
+		center.add(paintPanel,BorderLayout.CENTER);
 		
 		add(west,BorderLayout.WEST);
 		add(center,BorderLayout.CENTER);
