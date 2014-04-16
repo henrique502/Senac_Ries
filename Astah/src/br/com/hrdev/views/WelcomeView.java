@@ -9,6 +9,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -36,6 +37,11 @@ public class WelcomeView extends JPanel {
 		JLabel mensagem = new JLabel();
 		JPanel buttons = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		
+		JFileChooser fc = new JFileChooser();
+		JPanel panel = new JPanel();
+		panel.add(new JButton("teste"));
+		fc.setAccessory(panel);
+		
 		mensagem.setFont(new Font(Fonts.ShadowsIntoLight.getFamily(), Font.PLAIN, 50));
 		mensagem.setText("<html><center>Bem-Vindo!<br>ao<br>" + Window.Title + "</center></html>");
 		mensagem.setHorizontalAlignment(SwingConstants.CENTER);
@@ -53,7 +59,7 @@ public class WelcomeView extends JPanel {
 		buttons.add(ok);
 		buttons.add(sair);
 		
-		add(mensagem,BorderLayout.CENTER);
+		add(fc,BorderLayout.CENTER);
 		add(buttons,BorderLayout.SOUTH);
 		
 		setUpdatePanel();

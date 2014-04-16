@@ -8,6 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.DropMode;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JMenu;
@@ -25,6 +26,7 @@ import br.com.hrdev.Window;
 import br.com.hrdev.components.UIMenuBar;
 import br.com.hrdev.components.UIPaintPanel;
 import br.com.hrdev.components.UIToolBarButton;
+import br.com.hrdev.components.UITree;
 import br.com.hrdev.components.UITreeCellRenderer;
 import br.com.hrdev.events.CloseEvent;
 import br.com.hrdev.utils.Icons;
@@ -103,9 +105,11 @@ public class DashboardView extends JPanel {
 		center.setBorder(BorderFactory.createLineBorder(Color.gray));
 		
 		/* JTree */
-		tree = new JTree(getDataTree());
+		tree = new UITree(window,getDataTree());
 		tree.setBorder(new EmptyBorder(4, 4, 4, 4));
 		tree.setCellRenderer(new UITreeCellRenderer());
+		tree.setDragEnabled(true);
+		tree.setDropMode(DropMode.ON);
 		
 		/* JTree scrollPane */
 		JScrollPane scrollPane = new JScrollPane(tree);
@@ -159,18 +163,21 @@ public class DashboardView extends JPanel {
 	}
 
 	private DefaultMutableTreeNode getDataTree() {
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Meu Caso de Uso");
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Projeto Tal");
 		
-		DefaultMutableTreeNode node, child;
+		DefaultMutableTreeNode[] pastas = {
+			new DefaultMutableTreeNode("Diagramas"),
+			new DefaultMutableTreeNode("Autores")
+		};
 		
-		for (int i = 0; i < 15; i++) {
-			node = new DefaultMutableTreeNode("Teste " + i);
+		for (int i = 0; i < pastas.length; i++) {
 			for (int j = 0; j < 15; j++) {
-				child = new DefaultMutableTreeNode("Teste " + i + "/" + j);
-				node.add(child);
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode("Item " + j);
+				child.setUserObject(new String("Item " + j));
+				pastas[i].add(child);
 			}
 			
-			root.add(node);
+			root.add(pastas[i]);
 		}
 
 		return root;

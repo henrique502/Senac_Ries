@@ -1,7 +1,6 @@
 package br.com.hrdev.components;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -9,15 +8,12 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
 public class UIPaintPanel extends JPanel implements MouseMotionListener, MouseListener {
 	
-	private List<Component> components;
 	private Point mouse, oldPoint;
 	
 	private boolean hasPressed = false;
@@ -26,7 +22,6 @@ public class UIPaintPanel extends JPanel implements MouseMotionListener, MouseLi
 		setLayout(null);
 		mouse = new Point();
 		oldPoint = new Point();
-		components = new ArrayList<Component>();
 		addMouseMotionListener(this);
 		addMouseListener(this);
 		setBackground(Color.white);
@@ -39,15 +34,7 @@ public class UIPaintPanel extends JPanel implements MouseMotionListener, MouseLi
 		Graphics2D g = (Graphics2D) graphics;
 		
 		
-		g.setColor(Color.red);
-		
-		int width = 0, height = 0;
-		
-		width = oldPoint.x - mouse.x;
-		height = oldPoint.y - mouse.y;
-				
-		g.fillRect(mouse.x, mouse.y, width, height);
-		
+
 		
 		g.dispose();
 	}

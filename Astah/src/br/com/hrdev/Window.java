@@ -6,6 +6,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import br.com.hrdev.components.UIMenuBar;
@@ -28,6 +29,10 @@ public class Window extends JFrame {
 	private Window(){}
 	
 	private void run(){
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch(Exception e){}
+		
 		setAtributos();
 		setViews();
 		pack();
