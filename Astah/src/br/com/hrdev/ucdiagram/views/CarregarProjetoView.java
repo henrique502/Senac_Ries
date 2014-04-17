@@ -9,17 +9,16 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
-import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import br.com.hrdev.ucdiagram.Window;
 import br.com.hrdev.ucdiagram.components.UIMenuBar;
 import br.com.hrdev.ucdiagram.events.CloseEvent;
+import br.com.hrdev.ucdiagram.libraries.FileBrowser;
 import br.com.hrdev.ucdiagram.libraries.FileManager;
 import br.com.hrdev.ucdiagram.models.Projeto;
 
@@ -27,7 +26,7 @@ import br.com.hrdev.ucdiagram.models.Projeto;
 public class CarregarProjetoView extends JPanel {
 	
 	private Window window;
-	private JFileChooser chooser;
+	private FileBrowser chooser;
 	
 	private static final String CANCEL_OPTION = "CancelSelection";
 	private static final String APPROVE_OPTION = "ApproveSelection";
@@ -44,9 +43,7 @@ public class CarregarProjetoView extends JPanel {
 	}
 	
 	private void setChooser() {
-		chooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("UCDiagram save files", "*.ucdiagram","ucdiagram");
-		chooser.setFileFilter(filter);
+		chooser = new FileBrowser();
 		chooser.addActionListener(new FileChooserAction());
 		add(chooser);
 	}

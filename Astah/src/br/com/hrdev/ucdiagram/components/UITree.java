@@ -11,24 +11,25 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import br.com.hrdev.ucdiagram.Window;
 import br.com.hrdev.ucdiagram.models.Ator;
 import br.com.hrdev.ucdiagram.models.Diagrama;
+import br.com.hrdev.ucdiagram.views.DashboardView;
 
 public class UITree extends JTree implements MouseListener, TreeSelectionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPopupMenu popup;
-	private Window window;
+	private DashboardView view;
 	
 	private boolean canOpenMenu = false;
 	
 	
-	public UITree(Window window){
+	public UITree(DashboardView view){
 		super(new DefaultMutableTreeNode("Carregando..."));
-		this.window = window;
+		this.view = view;
 		setDragEnabled(false);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		setFocusable(true);
@@ -58,31 +59,37 @@ public class UITree extends JTree implements MouseListener, TreeSelectionListene
 
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
-		 DefaultMutableTreeNode node = (DefaultMutableTreeNode) getLastSelectedPathComponent();
-		 canOpenMenu = false;
-		 if(node == null) return;
-		 if(!node.isLeaf()) return;
-		 Object objeto = node.getUserObject();
-		 popup.removeAll();
-		 
-		 if(objeto instanceof Diagrama){
-			 Diagrama diagrama = (Diagrama) objeto;
-			 canOpenMenu = true;
-			 JMenuItem item = new JMenuItem("Remover diagrama " + diagrama);
-			 
-			 popup.add(new JMenuItem("Remover diagrama " + diagrama.getName()));
-			 
-		 }
-		 
-		 if(objeto instanceof Ator){
-			 Ator ator = (Ator) objeto;
-			 canOpenMenu = true;
-			 popup.add(new JMenuItem("Remover ator " + ator.getName()));
-			 popup.revalidate();
-		 }
-		 popup.revalidate();
-	}
+		if (isSelectionEmpty()) return;
+		TreePath path = getSelectionPath();
+		DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) path.getLastPathComponent();
+		
+		if(!selectedNode.isLeaf()) return;
+		
+		Object objeto = selectedNode.getUserObject();
 
+		canOpenMenu = false;
+		popup.removeAll();
+		 
+		if(objeto instanceof Diagrama){
+			Diagrama diagrama = (Diagrama) objeto;
+			view.showDiagram(diagrama);
+			 
+			canOpenMenu = true;
+			//JMenuItem item = new JMenuItem("Remover diagrama " + diagrama);
+			 
+			popup.add(new JMenuItem("Remover diagrama " + diagrama.getNome()));
+			 
+		}
+		 
+		if(objeto instanceof Ator){
+			Ator ator = (Ator) objeto;
+			canOpenMenu = true;
+			popup.add(new JMenuItem("Remover ator " + ator.getName()));
+			popup.revalidate();
+		}
+		popup.revalidate();
+	}
+	
 	public void updateAll(DefaultMutableTreeNode rootNode) {
 		DefaultTreeModel model = (DefaultTreeModel) getModel();
 		model.setRoot(rootNode);

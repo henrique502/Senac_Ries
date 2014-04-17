@@ -33,7 +33,7 @@ public class Window extends JFrame {
 	public static final String Dashboard = "dashboard";
 	public static final String CarregarProjeto = "carregar-projeto";
 	
-	private Window(){}
+	public Window(){}
 	
 	private void run(){
 		try {

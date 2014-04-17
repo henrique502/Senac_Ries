@@ -27,6 +27,7 @@ public class Icons {
 	public static final ImageIcon Page_delete = new Icons().getIcon("page_delete");
 	public static final ImageIcon Page_empty = new Icons().getIcon("page_empty");
 	public static final ImageIcon Page = new Icons().getIcon("page");
+	public static final ImageIcon Ator = new Icons().getIcon("ator");
 	
 	private final static String Ext = ".png";
 	
