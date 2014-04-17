@@ -14,7 +14,7 @@ public class Diagrama extends JPanel implements Serializable {
 		this.nome = nome;
 		setLayout(null);
 		setBackground(Color.white);
-		setFocusable(false);
+		setFocusable(true);
 	}
 	
 	public String getNome(){

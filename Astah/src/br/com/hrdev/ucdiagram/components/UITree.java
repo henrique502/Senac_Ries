@@ -2,6 +2,7 @@ package br.com.hrdev.ucdiagram.components;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Enumeration;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -11,6 +12,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -93,6 +95,24 @@ public class UITree extends JTree implements MouseListener, TreeSelectionListene
 	public void updateAll(DefaultMutableTreeNode rootNode) {
 		DefaultTreeModel model = (DefaultTreeModel) getModel();
 		model.setRoot(rootNode);
+		expandAll();
 	}
 	
+	public void expandAll(){
+		TreeNode root = (TreeNode) getModel().getRoot();
+		expandAll(this, new TreePath(root));
+	}
+
+	private void expandAll(JTree tree, TreePath parent) {
+		TreeNode node = (TreeNode) parent.getLastPathComponent();
+		if (node.getChildCount() >= 0) {
+			for (Enumeration e = node.children(); e.hasMoreElements();) {
+				TreeNode n = (TreeNode) e.nextElement();
+		        TreePath path = parent.pathByAddingChild(n);
+		        expandAll(tree, path);
+			}
+		}
+		tree.expandPath(parent);
+		// tree.collapsePath(parent);
+	}
 }

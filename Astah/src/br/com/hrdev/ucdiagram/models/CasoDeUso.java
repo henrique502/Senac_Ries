@@ -6,37 +6,35 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.io.Serializable;
 
 import br.com.hrdev.ucdiagram.utils.Fonts;
-import br.com.hrdev.ucdiagram.utils.Images;
 
-public class Ator extends Component implements Serializable {
+public class CasoDeUso extends Component implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private final static Dimension Size = new Dimension(150, 175);
-	private String nome;
+	private String texto;
 	
-	public Ator(String nome) {
-		this.nome = nome;
+	public CasoDeUso(String texto) {
+		this.texto = texto;
 		setSize(Size);
 		setPreferredSize(Size);
 		setFocusable(true);
 	}
 
 	public String getName() {
-		return this.nome;
+		return this.texto;
 	}
 	
-	public String getNome() {
-		return this.nome;
+	public String getTexto() {
+		return this.texto;
 	}
 	
 	public String toString(){
-		return this.nome;
+		return this.texto;
 	}
 
 	public void setPoint(Point point) {
@@ -49,18 +47,14 @@ public class Ator extends Component implements Serializable {
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		
-		Image img = Images.Ator.getImage();
-		g.drawImage(img,0,0,null);
-		
 		g.setFont(new Font(Fonts.ShadowsIntoLight.getFamily(), Font.PLAIN, 14));
 		FontMetrics fm = getFontMetrics(g.getFont());
 		
-		int textWidth = fm.stringWidth(this.nome);
+		int textWidth = fm.stringWidth(this.texto);
 		int x = (getWidth()  - textWidth)  / 2;
-		int y = img.getHeight(null) + 20;
+		int y = 20;
 		
-		g.drawString(this.nome, x, y);
+		g.drawString(this.texto, x, y);
 		
 		g.dispose();
 	}

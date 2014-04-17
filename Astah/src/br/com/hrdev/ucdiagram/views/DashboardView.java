@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -204,7 +205,7 @@ public class DashboardView extends JPanel {
 		rootNode.add(atores);
 		
 		tree.updateAll(rootNode);
-		
+		tree.expandRow(0);
 	}
 	
 	private void updateDiagramAreaData(){
@@ -217,15 +218,23 @@ public class DashboardView extends JPanel {
 			
 			diagramArea.add(d,d.getNome());
 		}
+		updateDiagramArea();
+	}
+	
+	public void updateDiagramArea(){
+		SwingUtilities.invokeLater(new Runnable(){
+		    public void run() {
+		    	diagramArea.revalidate();
+		    }
+		});
 	}
 
 	private void setUpdatePanel(){
 		addComponentListener (new ComponentAdapter(){
 	        @Override
 			public void componentShown(ComponentEvent e){
-	        	updateDataTree();
 	        	setMenu();
-	        	updateDiagramAreaData();
+	        	updateAll();
 	        }
 
 	        @Override
@@ -247,6 +256,7 @@ public class DashboardView extends JPanel {
 		currentDiagram = diagrama;
 		CardLayout card = (CardLayout) diagramArea.getLayout();
 		card.show(diagramArea, currentDiagram.getNome());
+		updateDiagramArea();
 	}
 	
 	
@@ -267,6 +277,7 @@ public class DashboardView extends JPanel {
 
 							window.getProjeto().getAtores().add(ator);
 							updateDataTree();
+							updateDiagramArea();
 						}
 						buttonGroup.clearSelection();
 					}
