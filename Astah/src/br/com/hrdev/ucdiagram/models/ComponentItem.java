@@ -27,6 +27,10 @@ public abstract class ComponentItem extends Component {
 		return true;
 	}
 	
+	public void setNome(String nome){
+		this.nome = nome;
+	}
+	
 	public String getName() {
 		return this.nome;
 	}

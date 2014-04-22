@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.models.Ator;
+import br.com.hrdev.ucdiagram.models.ComponentItem;
 import br.com.hrdev.ucdiagram.models.Diagrama;
 import br.com.hrdev.ucdiagram.utils.Icons;
 import br.com.hrdev.ucdiagram.views.DashboardView;
@@ -34,6 +35,7 @@ public class UIDashboardDiagramArea extends JPanel {
 	private Diagrama currentDiagram;
 	private ArrayList<UIToolBarButton> toolbarButtons;
 	private ButtonGroup buttonGroup;
+	private AddDiagramItem diagramaMouseAdapter = new AddDiagramItem();
 
 	public UIDashboardDiagramArea(UCDiagram window, DashboardView dashboard){
 		super(new BorderLayout(0,0));
@@ -79,27 +81,33 @@ public class UIDashboardDiagramArea extends JPanel {
 		diagramArea.removeAll();
 		currentDiagram = null;
 		
-		for(Diagrama d : window.getProjeto().getDiagramas()){
+		for(Diagrama diagrama : window.getProjeto().getDiagramas()){
 			if(currentDiagram == null)
-				currentDiagram = d;
+				currentDiagram = diagrama;
 			
-			diagramArea.add(d,d.getNome());
-			d.addMouseListener(new AddDiagramItem());
-			d.addMouseMotionListener(new AddDiagramItem());
+			diagramArea.add(diagrama,diagrama.getNome());
 		}
+		
+		System.out.println(currentDiagram);
 		
 		if(currentDiagram != null)
 			showDiagram(currentDiagram);
-			
-		repaint();
 	}
 	
 	public void showDiagram(Diagrama diagrama) {
 		if(diagrama == null) return;
+		
+		currentDiagram.removeMouseListener(diagramaMouseAdapter);
+		currentDiagram.addMouseMotionListener(diagramaMouseAdapter);
+		
 		currentDiagram = diagrama;
+		currentDiagram.addMouseListener(diagramaMouseAdapter);
+		currentDiagram.addMouseMotionListener(diagramaMouseAdapter);
+		
 		CardLayout card = (CardLayout) diagramArea.getLayout();
 		card.show(diagramArea, currentDiagram.getNome());
-		repaint();
+		
+		dashboard.repaint();
 	}
 	
 	
@@ -119,7 +127,7 @@ public class UIDashboardDiagramArea extends JPanel {
 							
 							window.getProjeto().getAtores().add(ator);
 							dashboard.getSidebar().updateDataTree();
-							repaint();
+							dashboard.repaint();
 						}
 						buttonGroup.clearSelection();
 						return;
@@ -133,8 +141,7 @@ public class UIDashboardDiagramArea extends JPanel {
 			Component[] layers = currentDiagram.getComponents();
 			for (Component layer : layers) {
 				if(layer.contains(e.getPoint())){
-					System.out.println(e.getPoint() + " | " + layer.getLocation());
-					System.out.println(layer);
+					dashboard.getSidebar().editItem((ComponentItem) layer);
 					return;
 				}
 			}

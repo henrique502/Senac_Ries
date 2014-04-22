@@ -2,6 +2,7 @@ package br.com.hrdev.ucdiagram.utils;
 
 import java.net.URL;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class Icons {
@@ -23,6 +24,7 @@ public class Icons {
 	public static final ImageIcon Projeto = new Icons().getIcon("projeto");
 	
 	private static final String Ext = ".png";
+	public static final Icon Ok = null;
 	
 	private ImageIcon getIcon(String iconName) {
 		URL imgURL = getClass().getResource("/assets/icons/" + iconName + Ext);

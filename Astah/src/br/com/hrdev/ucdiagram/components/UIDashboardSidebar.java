@@ -3,17 +3,21 @@ package br.com.hrdev.ucdiagram.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.events.AdicionarDiagramaEvent;
 import br.com.hrdev.ucdiagram.models.Ator;
+import br.com.hrdev.ucdiagram.models.ComponentItem;
 import br.com.hrdev.ucdiagram.models.Diagrama;
 import br.com.hrdev.ucdiagram.models.Projeto;
 import br.com.hrdev.ucdiagram.utils.Icons;
@@ -24,6 +28,7 @@ public class UIDashboardSidebar extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private UCDiagram window;
 	private DashboardView dashboard;
+	private UIDashboardSidebarEditableArea editableArea;
 	private UITree tree;
 
 	public UIDashboardSidebar(UCDiagram window, DashboardView dashboard){
@@ -58,20 +63,21 @@ public class UIDashboardSidebar extends JPanel {
 		add(addDiagram,BorderLayout.NORTH);
 	}
 	
-	public void setEditableArea(){
-		
-		
-		
-		
-		
+	private void setEditableArea(){
+		editableArea = new UIDashboardSidebarEditableArea();
+		editableArea.setSize(getWidth(), editableArea.getHeight());
+		editableArea.setEnabled(false);
+		add(editableArea,BorderLayout.SOUTH);
+	}
+
+	
+	public void editItem(ComponentItem item){
+		editableArea.setItem(item);
 	}
 	
-	
-	
-	
-	
-	
-	
+	public void clearItem(){
+		editableArea.clear();
+	}
 	
 	public void updateDataTree() {
 		Projeto projeto = window.getProjeto();
