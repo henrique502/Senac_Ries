@@ -102,7 +102,8 @@ public class UITree extends JTree implements MouseListener, TreeSelectionListene
 		TreeNode root = (TreeNode) getModel().getRoot();
 		expandAll(this, new TreePath(root));
 	}
-
+	
+	@SuppressWarnings("rawtypes")
 	private void expandAll(JTree tree, TreePath parent) {
 		TreeNode node = (TreeNode) parent.getLastPathComponent();
 		if (node.getChildCount() >= 0) {

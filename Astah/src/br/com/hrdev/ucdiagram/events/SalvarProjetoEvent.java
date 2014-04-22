@@ -7,17 +7,17 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import br.com.hrdev.ucdiagram.Window;
+import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.libraries.FileBrowser;
 import br.com.hrdev.ucdiagram.libraries.FileManager;
 import br.com.hrdev.ucdiagram.utils.Extension;
 
 public class SalvarProjetoEvent implements ActionListener {
 	
-	private Window window;
+	private UCDiagram window;
 	private boolean newFile;
 
-	public SalvarProjetoEvent(Window window, boolean newfile){
+	public SalvarProjetoEvent(UCDiagram window, boolean newfile){
 		this.window = window;
 		this.newFile = newfile;
 	}

@@ -5,22 +5,22 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import br.com.hrdev.ucdiagram.Window;
+import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.models.Projeto;
 import br.com.hrdev.ucdiagram.views.DashboardView;
 
 public class NovoProjetoEvent implements ActionListener {
 
 	
-	private Window window;
+	private UCDiagram window;
 	private DashboardView dashboard;
 
 
-	public NovoProjetoEvent(Window window){
+	public NovoProjetoEvent(UCDiagram window){
 		this(window,null);
 	}
 	
-	public NovoProjetoEvent(Window window, DashboardView dashboard) {
+	public NovoProjetoEvent(UCDiagram window, DashboardView dashboard) {
 		this.window = window;
 		this.dashboard = dashboard;
 	}
@@ -43,7 +43,7 @@ public class NovoProjetoEvent implements ActionListener {
 
 		window.setProjeto(new Projeto(titulo));
 		if(dashboard == null){
-			window.changeView(Window.Dashboard);
+			window.changeView(UCDiagram.Dashboard);
 		} else {
 			dashboard.updateAll();
 		}

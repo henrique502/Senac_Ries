@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
-import br.com.hrdev.ucdiagram.Window;
+import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.components.UIMenuBar;
 import br.com.hrdev.ucdiagram.events.CloseEvent;
 import br.com.hrdev.ucdiagram.libraries.FileBrowser;
@@ -25,13 +25,13 @@ import br.com.hrdev.ucdiagram.models.Projeto;
 @SuppressWarnings("serial")
 public class CarregarProjetoView extends JPanel {
 	
-	private Window window;
+	private UCDiagram window;
 	private FileBrowser chooser;
 	
 	private static final String CANCEL_OPTION = "CancelSelection";
 	private static final String APPROVE_OPTION = "ApproveSelection";
 	
-	public CarregarProjetoView(Window window){
+	public CarregarProjetoView(UCDiagram window){
 		this.window = window;
 		this.setup();
 	}
@@ -90,7 +90,7 @@ public class CarregarProjetoView extends JPanel {
 				Projeto projeto = (Projeto) objeto;
 				window.setProjeto(projeto);
 				window.setProjetoArquivo(file);
-				window.changeView(Window.Dashboard);
+				window.changeView(UCDiagram.Dashboard);
 				
 				reset();
 			} else {
@@ -111,9 +111,9 @@ public class CarregarProjetoView extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getActionCommand().equals(CANCEL_OPTION)){
 				if(window.getProjeto() == null){
-					window.changeView(Window.Welcome);
+					window.changeView(UCDiagram.Welcome);
 				} else {
-					window.changeView(Window.Dashboard);
+					window.changeView(UCDiagram.Dashboard);
 				}
 			}
 			if (e.getActionCommand().equals(APPROVE_OPTION)){

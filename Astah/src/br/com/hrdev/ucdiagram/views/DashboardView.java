@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import br.com.hrdev.ucdiagram.Window;
+import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.components.UIMenuBar;
 import br.com.hrdev.ucdiagram.components.UIToolBarButton;
 import br.com.hrdev.ucdiagram.components.UITree;
@@ -46,7 +46,7 @@ import br.com.hrdev.ucdiagram.utils.Icons;
 @SuppressWarnings("serial")
 public class DashboardView extends JPanel {
 
-	private Window window;
+	private UCDiagram window;
 	
 	private Dimension sidebarSize = new Dimension(180, this.getHeight());
 	
@@ -58,7 +58,7 @@ public class DashboardView extends JPanel {
 
 	public ButtonGroup buttonGroup;
 	
-	public DashboardView(Window window){
+	public DashboardView(UCDiagram window){
 		this.window = window;
 		this.setup();
 	}
@@ -84,7 +84,7 @@ public class DashboardView extends JPanel {
 		itemCarregar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				window.changeView(Window.CarregarProjeto);
+				window.changeView(UCDiagram.CarregarProjeto);
 			}
 		});
 		
@@ -147,7 +147,7 @@ public class DashboardView extends JPanel {
 		west.add(scrollPane,BorderLayout.CENTER);
 		
 		
-		JButton addDiagram = new JButton(Icons.Page_add);
+		JButton addDiagram = new JButton(Icons.Add);
 		addDiagram.setText("Novo Diagrama");
 		addDiagram.addActionListener(new AdicionarDiagramaEvent(this));
 		west.add(addDiagram,BorderLayout.NORTH);
@@ -188,7 +188,7 @@ public class DashboardView extends JPanel {
 
 	private void updateDataTree() {
 		Projeto projeto = window.getProjeto();
-		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(projeto.getNome());
+		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(projeto);
 
 		DefaultMutableTreeNode diagramas = new DefaultMutableTreeNode("Diagramas");
 		for (Diagrama diagrama : projeto.getDiagramas()) {
@@ -247,7 +247,7 @@ public class DashboardView extends JPanel {
 		updateDiagramAreaData();
 	}
 	
-	public Window getWindow(){
+	public UCDiagram getWindow(){
 		return this.window;
 	}
 	

@@ -7,13 +7,13 @@ import javax.swing.JOptionPane;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import br.com.hrdev.ucdiagram.Window;
+import br.com.hrdev.ucdiagram.UCDiagram;
 
 public class AjudaAction implements ActionListener, MenuListener {
 
-	private Window window;
+	private UCDiagram window;
 	
-	public AjudaAction(Window window){
+	public AjudaAction(UCDiagram window){
 		this.window = window;
 	}
 	

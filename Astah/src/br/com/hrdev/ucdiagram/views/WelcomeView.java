@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import br.com.hrdev.ucdiagram.Window;
+import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.components.UIMenuBar;
 import br.com.hrdev.ucdiagram.events.CloseEvent;
 import br.com.hrdev.ucdiagram.events.NovoProjetoEvent;
@@ -22,9 +22,9 @@ import br.com.hrdev.ucdiagram.utils.Fonts;
 @SuppressWarnings("serial")
 public class WelcomeView extends JPanel {
 	
-	private Window window;
+	private UCDiagram window;
 	
-	public WelcomeView(Window window){
+	public WelcomeView(UCDiagram window){
 		this.window = window;
 		this.setup();
 	}
@@ -40,7 +40,7 @@ public class WelcomeView extends JPanel {
 	private void setWelcome(){
 		JLabel mensagem = new JLabel();
 		mensagem.setFont(new Font(Fonts.ShadowsIntoLight.getFamily(), Font.PLAIN, 50));
-		mensagem.setText("<html><center>Bem-Vindo!<br>ao<br>" + Window.Title + "</center></html>");
+		mensagem.setText("<html><center>Bem-Vindo!<br>ao<br>" + UCDiagram.Title + "</center></html>");
 		mensagem.setHorizontalAlignment(SwingConstants.CENTER);
 		add(mensagem,BorderLayout.CENTER);
 	}
@@ -90,7 +90,7 @@ public class WelcomeView extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			window.changeView(Window.CarregarProjeto);
+			window.changeView(UCDiagram.CarregarProjeto);
 		}
 	}
 }

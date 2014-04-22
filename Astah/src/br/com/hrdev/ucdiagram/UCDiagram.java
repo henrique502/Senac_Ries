@@ -18,7 +18,7 @@ import br.com.hrdev.ucdiagram.views.DashboardView;
 import br.com.hrdev.ucdiagram.views.WelcomeView;
 
 @SuppressWarnings("serial")
-public class Window extends JFrame {
+public class UCDiagram extends JFrame {
 	
 	public static final String Title = "UCDiagram";
 	private static final Dimension Size = new Dimension(1024, 700);
@@ -31,11 +31,22 @@ public class Window extends JFrame {
 	
 	public static final String Welcome = "welcome";
 	public static final String Dashboard = "dashboard";
+	// TODO: Carregar deve ser igual a salvar projeto
 	public static final String CarregarProjeto = "carregar-projeto";
 	
-	public Window(){}
+	public UCDiagram(){}
 	
-	private void run(){
+	public static void main(String[] args){
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				UCDiagram app = new UCDiagram();
+				app.run();
+			}
+	    });
+	}
+	
+	public void run(){
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception e){}
@@ -101,15 +112,5 @@ public class Window extends JFrame {
 
 	public void setProjetoArquivo(File projetoArquivo) {
 		this.projetoArquivo = projetoArquivo;
-	}
-
-	public static void main(String[] args) {
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				Window app = new Window();
-				app.run();
-			}
-	    });
 	}
 }

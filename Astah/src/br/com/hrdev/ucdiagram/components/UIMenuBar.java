@@ -4,16 +4,16 @@ import javax.swing.Box;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
-import br.com.hrdev.ucdiagram.Window;
+import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.events.AjudaAction;
 import br.com.hrdev.ucdiagram.utils.Icons;
 
 @SuppressWarnings("serial")
 public class UIMenuBar extends JMenuBar {
 	
-	private Window window;
+	private UCDiagram window;
 	
-	public UIMenuBar(Window window){
+	public UIMenuBar(UCDiagram window){
 		super();
 	}
 	
