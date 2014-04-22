@@ -13,7 +13,6 @@ import javax.swing.border.EmptyBorder;
 import br.com.hrdev.ucdiagram.components.UIMenuBar;
 import br.com.hrdev.ucdiagram.models.Projeto;
 import br.com.hrdev.ucdiagram.utils.Icons;
-import br.com.hrdev.ucdiagram.views.CarregarProjetoView;
 import br.com.hrdev.ucdiagram.views.DashboardView;
 import br.com.hrdev.ucdiagram.views.WelcomeView;
 
@@ -31,8 +30,6 @@ public class UCDiagram extends JFrame {
 	
 	public static final String Welcome = "welcome";
 	public static final String Dashboard = "dashboard";
-	// TODO: Carregar deve ser igual a salvar projeto
-	public static final String CarregarProjeto = "carregar-projeto";
 	
 	public UCDiagram(){}
 	
@@ -79,7 +76,6 @@ public class UCDiagram extends JFrame {
 	private void setViews(){
 		painel.add(new WelcomeView(this),Welcome);
 		painel.add(new DashboardView(this),Dashboard);
-		painel.add(new CarregarProjetoView(this),CarregarProjeto);
 	}
 	
 	public void changeView(String idView){

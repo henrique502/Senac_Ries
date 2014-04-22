@@ -32,7 +32,7 @@ public class UITree extends JTree implements MouseListener, TreeSelectionListene
 	public UITree(DashboardView view){
 		super(new DefaultMutableTreeNode("Carregando..."));
 		this.view = view;
-		setDragEnabled(false);
+		setDragEnabled(true);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		setFocusable(true);
 		addMouseListener(this);

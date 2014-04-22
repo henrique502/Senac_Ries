@@ -3,8 +3,6 @@ package br.com.hrdev.ucdiagram.views;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -15,12 +13,13 @@ import javax.swing.SwingConstants;
 
 import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.components.UIMenuBar;
+import br.com.hrdev.ucdiagram.events.CarregarProjetoEvent;
 import br.com.hrdev.ucdiagram.events.CloseEvent;
 import br.com.hrdev.ucdiagram.events.NovoProjetoEvent;
 import br.com.hrdev.ucdiagram.utils.Fonts;
 
 @SuppressWarnings("serial")
-public class WelcomeView extends JPanel {
+public class WelcomeView extends JPanel implements View {
 	
 	private UCDiagram window;
 	
@@ -50,12 +49,12 @@ public class WelcomeView extends JPanel {
 		
 		JButton novo = new JButton();
 		novo.setText("Novo Projeto");
-		novo.addActionListener(new NovoProjetoEvent(window));
+		novo.addActionListener(new NovoProjetoEvent(window,this));
 		buttons.add(novo);
 		
 		JButton carregar = new JButton();
 		carregar.setText("Carregar Projeto");
-		carregar.addActionListener(new CarregarProjetoAction());
+		carregar.addActionListener(new CarregarProjetoEvent(window,this));
 		buttons.add(carregar);
 		
 		JButton sair = new JButton();
@@ -85,12 +84,7 @@ public class WelcomeView extends JPanel {
 			public void componentHidden(ComponentEvent e){}
 	    });
 	}
-	
-	private class CarregarProjetoAction implements ActionListener {
 
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			window.changeView(UCDiagram.CarregarProjeto);
-		}
-	}
+	@Override
+	public void updateUIContents() {}
 }

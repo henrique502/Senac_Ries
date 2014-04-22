@@ -7,22 +7,17 @@ import javax.swing.JOptionPane;
 
 import br.com.hrdev.ucdiagram.UCDiagram;
 import br.com.hrdev.ucdiagram.models.Projeto;
-import br.com.hrdev.ucdiagram.views.DashboardView;
+import br.com.hrdev.ucdiagram.views.View;
 
 public class NovoProjetoEvent implements ActionListener {
 
 	
 	private UCDiagram window;
-	private DashboardView dashboard;
+	private View view;
 
-
-	public NovoProjetoEvent(UCDiagram window){
-		this(window,null);
-	}
-	
-	public NovoProjetoEvent(UCDiagram window, DashboardView dashboard) {
+	public NovoProjetoEvent(UCDiagram window, View view){
 		this.window = window;
-		this.dashboard = dashboard;
+		this.view = view;
 	}
 
 	@Override
@@ -42,10 +37,8 @@ public class NovoProjetoEvent implements ActionListener {
 			return;
 
 		window.setProjeto(new Projeto(titulo));
-		if(dashboard == null){
-			window.changeView(UCDiagram.Dashboard);
-		} else {
-			dashboard.updateAll();
-		}
+		window.changeView(UCDiagram.Dashboard);
+		if(view != null)
+			view.updateUIContents();
 	}
 }

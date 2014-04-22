@@ -21,7 +21,6 @@ public class FileBrowser extends JFileChooser {
 		setFileHidingEnabled(false);
 		setFileFilter(new FileBrowserFileFilter());
 		setAcceptAllFileFilterUsed(false);
-		addChoosableFileFilter(new FileBrowserFileFilter());
 	}
 	
 	private class FileBrowserFileFilter extends FileFilter {

@@ -1,62 +1,32 @@
 package br.com.hrdev.ucdiagram.views;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Event;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.tree.DefaultMutableTreeNode;
 
 import br.com.hrdev.ucdiagram.UCDiagram;
+import br.com.hrdev.ucdiagram.components.UIDashboardDiagramArea;
+import br.com.hrdev.ucdiagram.components.UIDashboardSidebar;
 import br.com.hrdev.ucdiagram.components.UIMenuBar;
-import br.com.hrdev.ucdiagram.components.UIToolBarButton;
-import br.com.hrdev.ucdiagram.components.UITree;
-import br.com.hrdev.ucdiagram.components.UITreeCellRenderer;
-import br.com.hrdev.ucdiagram.events.AdicionarDiagramaEvent;
+import br.com.hrdev.ucdiagram.events.CarregarProjetoEvent;
 import br.com.hrdev.ucdiagram.events.CloseEvent;
 import br.com.hrdev.ucdiagram.events.NovoProjetoEvent;
 import br.com.hrdev.ucdiagram.events.SalvarProjetoEvent;
-import br.com.hrdev.ucdiagram.models.Ator;
 import br.com.hrdev.ucdiagram.models.Diagrama;
-import br.com.hrdev.ucdiagram.models.Projeto;
-import br.com.hrdev.ucdiagram.utils.Icons;
 
 @SuppressWarnings("serial")
-public class DashboardView extends JPanel {
+public class DashboardView extends JPanel implements View {
 
 	private UCDiagram window;
-	
-	private Dimension sidebarSize = new Dimension(180, this.getHeight());
-	
-	private UITree tree;
-
-	private JPanel diagramArea;
-	private Diagrama currentDiagram = null;
-	private ArrayList<UIToolBarButton> toolbarButtons;
-
-	public ButtonGroup buttonGroup;
+	private UIDashboardSidebar sidebar;
+	private UIDashboardDiagramArea diagramArea;
 	
 	public DashboardView(UCDiagram window){
 		this.window = window;
@@ -81,12 +51,7 @@ public class DashboardView extends JPanel {
 		
 		/* Item Carregar Projeto */
 		JMenuItem itemCarregar = new JMenuItem("Carregar Projeto");  
-		itemCarregar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				window.changeView(UCDiagram.CarregarProjeto);
-			}
-		});
+		itemCarregar.addActionListener(new CarregarProjetoEvent(window,this));
 		
 		/* Item Salvar */
 		JMenuItem itemSalvar = new JMenuItem("Salvar");  
@@ -99,8 +64,8 @@ public class DashboardView extends JPanel {
 		itemSalvarComo.addActionListener(new SalvarProjetoEvent(window,true));
 		
 		/* Item Exportar em PNG */
-		JMenuItem itemExportar = new JMenuItem("Exportar em PNG");  
-		
+		JMenuItem itemExportar = new JMenuItem("Exportar em PNG");
+		itemExportar.setEnabled(false);
 		
 		/* Item Sair */
 		JMenuItem itemSair = new JMenuItem("Sair");  
@@ -127,106 +92,13 @@ public class DashboardView extends JPanel {
 	private void setPanels(){
 		setLayout(new BorderLayout(10,0));
 		
-		/* Panels */
-		JPanel west = new JPanel(new BorderLayout(0,5));
-		JPanel center = new JPanel(new BorderLayout(0,0));
-		
-		center.setBackground(Color.white);
-		center.setBorder(BorderFactory.createLineBorder(Color.gray));
-		
-		/* JTree scrollPane */
-		tree = new UITree(this);
-		tree.setBorder(new EmptyBorder(4, 4, 4, 4));
-		tree.setCellRenderer(new UITreeCellRenderer());
-		
-		JScrollPane scrollPane = new JScrollPane(tree);
-		scrollPane.setBorder(BorderFactory.createLineBorder(Color.gray));
-		scrollPane.setBackground(Color.white);
-		scrollPane.setPreferredSize(sidebarSize);
-		
-		west.add(scrollPane,BorderLayout.CENTER);
+		sidebar = new UIDashboardSidebar(window, this);
+		diagramArea = new UIDashboardDiagramArea(window, this);
 		
 		
-		JButton addDiagram = new JButton(Icons.Add);
-		addDiagram.setText("Novo Diagrama");
-		addDiagram.addActionListener(new AdicionarDiagramaEvent(this));
-		west.add(addDiagram,BorderLayout.NORTH);
+		add(sidebar,BorderLayout.WEST);
+		add(diagramArea,BorderLayout.CENTER);
 		
-		/* Draw Area */
-		JToolBar toolbar = new JToolBar(SwingConstants.HORIZONTAL);
-		toolbar.setFloatable(false);
-		setToolbar(toolbar);
-		center.add(toolbar,BorderLayout.NORTH);
-		
-		diagramArea = new JPanel(new CardLayout());
-		diagramArea.setBackground(Color.gray);
-		diagramArea.addMouseListener(new AddDiagramItem());
-		diagramArea.setBorder(new EmptyBorder(15,15,15,15));
-		JScrollPane diagramScrollPane = new JScrollPane(diagramArea);
-		diagramScrollPane.setBorder(new EmptyBorder(0,0,0,0));
-
-		center.add(diagramScrollPane,BorderLayout.CENTER);
-		
-		add(west,BorderLayout.WEST);
-		add(center,BorderLayout.CENTER);
-		
-	}
-	
-	private void setToolbar(JToolBar toolbar) {
-		buttonGroup = new ButtonGroup();
-		toolbarButtons = new ArrayList<UIToolBarButton>();
-
-		UIToolBarButton button = new UIToolBarButton(Icons.Ator,"Criar novo ator",UIToolBarButton.Ator);
-		buttonGroup.add(button);
-		toolbarButtons.add(button);
-		toolbar.add(button);
-		
-
-
-
-	}
-
-	private void updateDataTree() {
-		Projeto projeto = window.getProjeto();
-		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(projeto);
-
-		DefaultMutableTreeNode diagramas = new DefaultMutableTreeNode("Diagramas");
-		for (Diagrama diagrama : projeto.getDiagramas()) {
-			diagramas.add(new DefaultMutableTreeNode(diagrama));
-		}
-		
-		
-		DefaultMutableTreeNode atores = new DefaultMutableTreeNode("Atores");
-		for (Ator ator : projeto.getAtores()) {
-			atores.add(new DefaultMutableTreeNode(ator));
-		}
-
-		rootNode.add(diagramas);
-		rootNode.add(atores);
-		
-		tree.updateAll(rootNode);
-		tree.expandRow(0);
-	}
-	
-	private void updateDiagramAreaData(){
-		diagramArea.removeAll();
-		currentDiagram = null;
-		
-		for(Diagrama d : window.getProjeto().getDiagramas()){
-			if(currentDiagram == null)
-				currentDiagram = d;
-			
-			diagramArea.add(d,d.getNome());
-		}
-		updateDiagramArea();
-	}
-	
-	public void updateDiagramArea(){
-		SwingUtilities.invokeLater(new Runnable(){
-		    public void run() {
-		    	diagramArea.revalidate();
-		    }
-		});
 	}
 
 	private void setUpdatePanel(){
@@ -243,8 +115,9 @@ public class DashboardView extends JPanel {
 	}
 
 	public void updateAll() {
-		updateDataTree();
-		updateDiagramAreaData();
+		sidebar.updateDataTree();
+		diagramArea.updateDiagramAreaData();
+		repaint();
 	}
 	
 	public UCDiagram getWindow(){
@@ -252,54 +125,16 @@ public class DashboardView extends JPanel {
 	}
 	
 	public void showDiagram(Diagrama diagrama) {
-		if(diagrama == null) return;
-		currentDiagram = diagrama;
-		CardLayout card = (CardLayout) diagramArea.getLayout();
-		card.show(diagramArea, currentDiagram.getNome());
-		updateDiagramArea();
+		diagramArea.showDiagram(diagrama);
 	}
-	
-	
-	/* TODO: Mudar geito ta Ator.java, melhor resposta da area de desenho */
-	/* Inner Class */
-	
-	private class AddDiagramItem implements MouseListener {
 
-		private void addItem(Point point){
-			if(currentDiagram != null){
-				for(UIToolBarButton button : toolbarButtons){
-					if(button.isSelected()){
-						if(button.getTipo() == UIToolBarButton.Ator){
-							Ator ator = new Ator("Ator " + window.getProjeto().getAtores().size());
+	@Override
+	public void updateUIContents() {
+		updateAll();
+	}
 
-							ator.setPoint(point);
-							currentDiagram.add(ator);
-
-							window.getProjeto().getAtores().add(ator);
-							updateDataTree();
-							updateDiagramArea();
-						}
-						buttonGroup.clearSelection();
-					}
-				}
-			}
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) { addItem(e.getPoint()); }
-
-		@Override
-		public void mouseEntered(MouseEvent e) {}
-
-		@Override
-		public void mouseExited(MouseEvent e) {}
-
-		@Override
-		public void mousePressed(MouseEvent e) {}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {}
-		
+	public UIDashboardSidebar getSidebar() {
+		return sidebar;
 	}
 	
 }
