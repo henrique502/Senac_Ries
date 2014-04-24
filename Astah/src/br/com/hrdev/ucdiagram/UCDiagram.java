@@ -16,12 +16,13 @@ import br.com.hrdev.ucdiagram.utils.Icons;
 import br.com.hrdev.ucdiagram.views.DashboardView;
 import br.com.hrdev.ucdiagram.views.WelcomeView;
 
-@SuppressWarnings("serial")
 public class UCDiagram extends JFrame {
 	
-	public static final String Title = "UCDiagram";
+	private static final long serialVersionUID = 1L;
 	private static final Dimension Size = new Dimension(1024, 700);
 
+	public static final String Title = "UCDiagram";
+	
 	private JPanel painel;
 	private CardLayout layout;
 	
@@ -31,7 +32,9 @@ public class UCDiagram extends JFrame {
 	public static final String Welcome = "welcome";
 	public static final String Dashboard = "dashboard";
 	
-	public UCDiagram(){}
+	public UCDiagram(){
+		super();
+	}
 	
 	public static void main(String[] args){
 		java.awt.EventQueue.invokeLater(new Runnable() {
