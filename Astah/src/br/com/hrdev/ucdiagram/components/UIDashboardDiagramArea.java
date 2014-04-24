@@ -81,24 +81,22 @@ public class UIDashboardDiagramArea extends JPanel {
 		diagramArea.removeAll();
 		currentDiagram = null;
 		
+		JPanel blank = new JPanel();
+		blank.setOpaque(false);
+		diagramArea.add(blank,"blank");
+		
 		for(Diagrama diagrama : window.getProjeto().getDiagramas()){
-			if(currentDiagram == null)
-				currentDiagram = diagrama;
-			
 			diagramArea.add(diagrama,diagrama.getNome());
 		}
-		
-		System.out.println(currentDiagram);
-		
-		if(currentDiagram != null)
-			showDiagram(currentDiagram);
 	}
 	
 	public void showDiagram(Diagrama diagrama) {
 		if(diagrama == null) return;
 		
-		currentDiagram.removeMouseListener(diagramaMouseAdapter);
-		currentDiagram.addMouseMotionListener(diagramaMouseAdapter);
+		if(currentDiagram != null){
+			currentDiagram.removeMouseListener(diagramaMouseAdapter);
+			currentDiagram.addMouseMotionListener(diagramaMouseAdapter);
+		}
 		
 		currentDiagram = diagrama;
 		currentDiagram.addMouseListener(diagramaMouseAdapter);
@@ -106,7 +104,7 @@ public class UIDashboardDiagramArea extends JPanel {
 		
 		CardLayout card = (CardLayout) diagramArea.getLayout();
 		card.show(diagramArea, currentDiagram.getNome());
-		
+
 		dashboard.repaint();
 	}
 	
