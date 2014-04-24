@@ -37,6 +37,19 @@ public class Projeto implements Serializable {
 		return diagramas;
 	}
 	
+	public void removerAtor(Ator ator) {
+		if(ator == null) return;
+		
+		for(Diagrama diagrama : diagramas)
+			diagrama.remove(ator);
+		
+		atores.remove(ator);
+	}
+	
+	public void removerDiagrama(Diagrama diagrama){
+		diagramas.remove(diagrama);
+	}
+	
 	public String toString(){
 		return this.nome;
 	}

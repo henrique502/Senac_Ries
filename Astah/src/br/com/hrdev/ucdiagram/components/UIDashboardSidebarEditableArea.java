@@ -43,10 +43,6 @@ public class UIDashboardSidebarEditableArea extends JPanel implements ActionList
 		add(cancelar);
 	}
 	
-	private void loadInfos(){
-		
-	}
-	
 	@Override
 	public void setEnabled(boolean enabled) {
 		nome.setEnabled(enabled);
@@ -74,11 +70,22 @@ public class UIDashboardSidebarEditableArea extends JPanel implements ActionList
 	}
 	
 	public void setItem(ComponentItem i){
+		setItem(i,true);
+	}
+	
+	public void setItem(ComponentItem i, boolean editAll){
 		item = i;
 		nome.setText(item.getNome());
-		x.setText(item.getX() + "");
-		y.setText(item.getY() + "");
 		setEnabled(true);
+		if(editAll){
+			x.setText(item.getX() + "");
+			y.setText(item.getY() + "");
+		} else {
+			x.setText("0");
+			y.setText("0");
+			x.setEnabled(false);
+			y.setEnabled(false);
+		}
 	}
 	
 	

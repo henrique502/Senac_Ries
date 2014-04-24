@@ -3,14 +3,11 @@ package br.com.hrdev.ucdiagram.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -22,6 +19,7 @@ import br.com.hrdev.ucdiagram.models.Diagrama;
 import br.com.hrdev.ucdiagram.models.Projeto;
 import br.com.hrdev.ucdiagram.utils.Icons;
 import br.com.hrdev.ucdiagram.views.DashboardView;
+
 
 public class UIDashboardSidebar extends JPanel {
 	
@@ -82,7 +80,7 @@ public class UIDashboardSidebar extends JPanel {
 	public void updateDataTree() {
 		Projeto projeto = window.getProjeto();
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(projeto);
-
+		
 		DefaultMutableTreeNode diagramas = new DefaultMutableTreeNode("Diagramas");
 		for (Diagrama diagrama : projeto.getDiagramas()) {
 			diagramas.add(new DefaultMutableTreeNode(diagrama));

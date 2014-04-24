@@ -1,5 +1,7 @@
 package br.com.hrdev.ucdiagram.components;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Enumeration;
@@ -18,6 +20,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import br.com.hrdev.ucdiagram.models.Ator;
 import br.com.hrdev.ucdiagram.models.Diagrama;
+import br.com.hrdev.ucdiagram.models.Projeto;
 import br.com.hrdev.ucdiagram.views.DashboardView;
 
 public class UITree extends JTree implements MouseListener, TreeSelectionListener {
@@ -71,25 +74,51 @@ public class UITree extends JTree implements MouseListener, TreeSelectionListene
 
 		canOpenMenu = false;
 		popup.removeAll();
-		 
-		if(objeto instanceof Diagrama){
-			Diagrama diagrama = (Diagrama) objeto;
-			view.showDiagram(diagrama);
-			 
-			canOpenMenu = true;
-			//JMenuItem item = new JMenuItem("Remover diagrama " + diagrama);
-			 
-			popup.add(new JMenuItem("Remover diagrama " + diagrama.getNome()));
-			 
-		}
-		 
-		if(objeto instanceof Ator){
-			Ator ator = (Ator) objeto;
-			canOpenMenu = true;
-			popup.add(new JMenuItem("Remover ator " + ator.getName()));
-			popup.revalidate();
-		}
+		
+		if(objeto instanceof Diagrama)
+			diagramaOptions((Diagrama) objeto);
+		
+		if(objeto instanceof Ator)
+			atorOptions((Ator) objeto);
+		
+		if(objeto instanceof Projeto)
+			projetoOptions((Projeto) objeto);
+			
 		popup.revalidate();
+	}
+	
+	private void atorOptions(final Ator ator){
+		canOpenMenu = true;
+		JMenuItem option = new JMenuItem("Remover ator " + ator);
+		option.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.getWindow().getProjeto().removerAtor(ator);
+				view.updateAll();
+			}
+		});
+		popup.add(option);
+	}
+	
+	private void diagramaOptions(final Diagrama diagrama){
+		view.showDiagram(diagrama); 
+		canOpenMenu = true;
+		JMenuItem option = new JMenuItem("Remover diagrama " + diagrama);
+		option.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				view.getWindow().getProjeto().removerDiagrama(diagrama);
+				view.updateAll();
+			}
+		});
+		popup.add(option);
+	}
+	
+	private void projetoOptions(final Projeto projeto){
+		canOpenMenu = true;
+		JMenuItem option = new JMenuItem("Editar nome " + projeto);
+
+		popup.add(option);
 	}
 	
 	public void updateAll(DefaultMutableTreeNode rootNode) {
