@@ -1,5 +1,6 @@
 package br.com.hrdev.ucdiagram.models;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -8,10 +9,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.geom.RoundRectangle2D;
 import java.io.Serializable;
 
-import br.com.hrdev.ucdiagram.utils.Fonts;
 import br.com.hrdev.ucdiagram.utils.Images;
 
 public class Ator extends ComponentItem implements Serializable {
@@ -39,12 +39,11 @@ public class Ator extends ComponentItem implements Serializable {
 	public void paint(Graphics graphics) {
 		super.paint(graphics);
 		Graphics2D g = (Graphics2D) graphics;
-		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		
 		Image img = Images.Ator.getImage();
 		g.drawImage(img,0,0,null);
 		
-		g.setFont(new Font(Fonts.ShadowsIntoLight.getFamily(), Font.PLAIN, 14));
+		g.setFont(new Font("Arial", Font.PLAIN, 14));
 		FontMetrics fm = getFontMetrics(g.getFont());
 		
 		int textWidth = fm.stringWidth(this.nome);
@@ -52,10 +51,12 @@ public class Ator extends ComponentItem implements Serializable {
 		int y = img.getHeight(null) + 20;
 		
 		g.drawString(this.nome, x, y);
-			
-		if(hasFocus()){
+		
+		if(hasSelected){
+			float[] dash = {5.0f};
+			g.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash, 0.0f));
 			g.setColor(Color.black);
-			g.drawLine(0, 0, getWidth(), getHeight());
+			g.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 7, 7));
 		}
 		
 		g.dispose();

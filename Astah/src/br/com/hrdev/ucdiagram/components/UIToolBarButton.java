@@ -9,6 +9,7 @@ public class UIToolBarButton extends JToggleButton {
 	
 	
 	public static final int Ator = 1;
+	public static final int Caso = 2;
 	public static final int Pointer = 0;
 	
 	private int tipo;

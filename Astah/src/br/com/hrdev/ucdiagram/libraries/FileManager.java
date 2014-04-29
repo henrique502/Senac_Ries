@@ -6,6 +6,10 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * @author Henrique Rieger
+ */
+
 public class FileManager {
 	
 	public boolean checkFile(File file) {

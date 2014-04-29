@@ -1,5 +1,9 @@
 package br.com.hrdev.ucdiagram.libraries;
 
+/**
+ * @author Henrique Rieger
+ */
+
 import java.io.File;
 
 import javax.swing.JFileChooser;

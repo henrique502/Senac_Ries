@@ -42,7 +42,6 @@ public class UIDashboardSidebar extends JPanel {
 	}
 
 	private void setTree(){
-		/* JTree scrollPane */
 		tree = new UITree(dashboard);
 		tree.setBorder(new EmptyBorder(4, 4, 4, 4));
 		tree.setCellRenderer(new UITreeCellRenderer());
@@ -54,7 +53,6 @@ public class UIDashboardSidebar extends JPanel {
 		
 		add(scrollPane,BorderLayout.CENTER);
 		
-		
 		JButton addDiagram = new JButton(Icons.Add);
 		addDiagram.setText("Novo Diagrama");
 		addDiagram.addActionListener(new AdicionarDiagramaEvent(dashboard));
@@ -62,12 +60,11 @@ public class UIDashboardSidebar extends JPanel {
 	}
 	
 	private void setEditableArea(){
-		editableArea = new UIDashboardSidebarEditableArea();
+		editableArea = new UIDashboardSidebarEditableArea(this);
 		editableArea.setSize(getWidth(), editableArea.getHeight());
 		editableArea.setEnabled(false);
 		add(editableArea,BorderLayout.SOUTH);
 	}
-
 	
 	public void editItem(ComponentItem item){
 		editableArea.setItem(item);

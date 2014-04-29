@@ -1,8 +1,11 @@
 package br.com.hrdev.ucdiagram.components;
 
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,9 +22,12 @@ public class UIDashboardSidebarEditableArea extends JPanel implements ActionList
 	private JTextField nome, x, y;
 	private JButton salvar, cancelar;
 	private ComponentItem item = null;
+	private UIDashboardSidebar sidebar;
+	private MoveObject mo = new MoveObject();
 	
-	public UIDashboardSidebarEditableArea(){
+	public UIDashboardSidebarEditableArea(UIDashboardSidebar sidebar){
 		super(new GridLayout(4, 2, 5, 5));
+		this.sidebar = sidebar;
 		setup();
 	}
 	
@@ -31,9 +37,12 @@ public class UIDashboardSidebarEditableArea extends JPanel implements ActionList
 		add(nome);
 		add(new JLabel("X:"));
 		x = new JTextField("0",10);
+		x.setEnabled(false);
+		
 		add(x);
 		add(new JLabel("Y:"));
 		y = new JTextField("0",10);
+		y.setEnabled(false);
 		add(y);
 		salvar = new JButton("Salvar", Icons.Accept);
 		salvar.addActionListener(this);
@@ -46,22 +55,29 @@ public class UIDashboardSidebarEditableArea extends JPanel implements ActionList
 	@Override
 	public void setEnabled(boolean enabled) {
 		nome.setEnabled(enabled);
-		x.setEnabled(enabled);
-		y.setEnabled(enabled);
 		salvar.setEnabled(enabled);
 		cancelar.setEnabled(enabled);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("Cancelar")){
-			clear();
-		} else {
+		if(e.getActionCommand().equals("Salvar")){
+			String text = nome.getText();
+			if(text == null || text.trim().equals("")) return;
 			
+			item.setNome(nome.getText());
+			sidebar.updateDataTree();
 		}
+		clear();
 	}
 	
 	public void clear(){
+		if(item != null){
+			item.setSelected(false);
+			item.removeMouseMotionListener(mo);
+			item.removeMouseListener(mo);
+		}
+		
 		nome.setText("");
 		x.setText("0");
 		y.setText("0");
@@ -70,23 +86,56 @@ public class UIDashboardSidebarEditableArea extends JPanel implements ActionList
 	}
 	
 	public void setItem(ComponentItem i){
-		setItem(i,true);
-	}
-	
-	public void setItem(ComponentItem i, boolean editAll){
+		clear();
+		
 		item = i;
+		item.setSelected(true);
+		item.addMouseMotionListener(mo);
+		item.addMouseListener(mo);
+		item.requestFocus();
 		nome.setText(item.getNome());
 		setEnabled(true);
-		if(editAll){
-			x.setText(item.getX() + "");
-			y.setText(item.getY() + "");
-		} else {
-			x.setText("0");
-			y.setText("0");
-			x.setEnabled(false);
-			y.setEnabled(false);
-		}
+		x.setText(item.getX() + "");
+		y.setText(item.getY() + "");
 	}
 	
+	private class MoveObject extends MouseAdapter {
+		
+		private boolean isPressed = false;
+		private boolean isDraged = false;
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			isPressed = true;
+		}
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			isDraged = false;
+			
+		}
+		
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			isDraged = true;
+		}
+		@Override
+		public void mouseMoved(MouseEvent e) {
+
+			if(!isDraged){
+				
+				Point origin = item.getLocation();
+				int x = origin.x - (e.getPoint().x  - item.getWidth());
+				int y = origin.y - (e.getPoint().y  - item.getHeight());
+				
+				System.out.println(x + "/" + y + " = " + origin);
+				
+				// layer.setLocation(x,y);
+			} else {
+				
+			}
+		
+		}
+	}
 	
 }

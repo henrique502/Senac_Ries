@@ -1,12 +1,16 @@
 package br.com.hrdev.ucdiagram.models;
 
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 
 public abstract class ComponentItem extends Component {
 
 	private static final long serialVersionUID = 1L;
 	protected String nome;
+	protected boolean hasSelected = false;
 	
 	public boolean contains(Point p) {
 		if(p == null)
@@ -41,5 +45,18 @@ public abstract class ComponentItem extends Component {
 	
 	public String toString(){
 		return this.nome;
+	}
+
+	public void setSelected(boolean selected) {
+		hasSelected = selected;
+		repaint();
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		super.paint(g);
 	}
 }
